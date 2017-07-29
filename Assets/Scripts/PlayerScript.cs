@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
-    float moveSpeed = 5.0f;
+    float moveSpeed = 1000.0f;
+    Rigidbody2D rb;
 
 	// Use this for initialization
 	void Start ()
     {
-		
+        rb = GetComponent<Rigidbody2D>();
 	}
 	
 	// Update is called once per frame
@@ -23,6 +24,6 @@ public class PlayerScript : MonoBehaviour
 
         //Move player
         Vector2 movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        transform.Translate(movement * moveSpeed * Time.deltaTime, Space.World);
+        rb.velocity = (movement * moveSpeed * Time.deltaTime);
 	}
 }
