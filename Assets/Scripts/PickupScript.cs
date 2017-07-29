@@ -24,8 +24,10 @@ public class PickupScript : MonoBehaviour {
 
     void dropItem()
     {
+        Vector3 itemPos = heldItem.transform.position;
         heldItem.transform.parent = null;
         heldItem.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+        heldItem.transform.position = itemPos;
         heldItem = null;
     }
 	
