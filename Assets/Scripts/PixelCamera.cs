@@ -51,7 +51,6 @@ public class PixelCamera : MonoBehaviour
         // set it
         this.GetComponent<Camera>().orthographicSize = orthoSize;
 
-        Debug.Log(lastSize + " " + orthoSize + " " + multiplier + " " + ppu);
     }
 
     // Update is called once per frame

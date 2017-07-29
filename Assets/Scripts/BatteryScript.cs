@@ -22,6 +22,11 @@ public class BatteryScript : MonoBehaviour {
 
     }
 
+    public float GetCharge()
+    {
+        return charge;
+    }
+
     public void DetachFromPort()
     {
         if(port != null)

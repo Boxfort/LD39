@@ -6,6 +6,9 @@ public class PortScript : MonoBehaviour, IPort
 {
     GameObject attachedBattery;
     BatteryScript batteryScript;
+    public GameManager gameManager;
+
+    public SystemType type;
 
     float drainRate = 0.1f;
 
@@ -35,10 +38,20 @@ public class PortScript : MonoBehaviour, IPort
 	// Update is called once per frame
 	void Update ()
     {
-		if(batteryScript != null)
+        if (batteryScript != null)
         {
             batteryScript.DrainBattery(drainRate);
         }
+
+        if (attachedBattery != null)
+        {
+            gameManager.UpdateSystem(type, batteryScript.GetCharge());
+        }
+        else
+        {
+            gameManager.UpdateSystem(type, 0.0f);
+        }
+
 	}
 
     void OnTriggerStay2D(Collider2D col)
