@@ -34,8 +34,6 @@ public class LevelLoader : MonoBehaviour
             {
                 Color32 pixel = map.GetPixel(i, j);
 
-                Debug.Log("x: " + i + " y: " + j + " | Color = " + pixel.ToString());
-
                 if (tileMap.ContainsKey(pixel))
                 {
                     Instantiate(tileMap[pixel], new Vector3(i, j, 1.0f), tileMap[pixel].transform.rotation);
