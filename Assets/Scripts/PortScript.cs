@@ -10,7 +10,7 @@ public class PortScript : MonoBehaviour, IPort
 
     public SystemType type;
 
-    float drainRate = 0.1f;
+    public float drainRate = 0.1f;
 
 	// Use this for initialization
 	void Start ()

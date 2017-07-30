@@ -7,13 +7,20 @@ public class GameManager : MonoBehaviour
 {
     float shipSpeed = 0.5f;
     float goalDistance = 100.0f;
-    float currentDistance = 0.0f;
+
+    public float currentDistance = 0.0f;
 
     float shipHealth = 100.0f;
     float crewHealth = 100.0f;
 
     float crewDamageRate = 2.0f;
     float shipDamageRate = 5.0f;
+
+    bool powerOn = false;
+
+    public Image vignette;
+    public Light mainLight;
+    public Light playerLight;
 
     public CameraScript camera;
 
@@ -28,12 +35,6 @@ public class GameManager : MonoBehaviour
         {SystemType.oxygen, 100.0f},
         {SystemType.lights, 100.0f}
     };
-
-    // Use this for initialization
-    void Start ()
-    {
-		
-	}
 	
 	// Update is called once per frame
 	void Update ()
@@ -46,14 +47,22 @@ public class GameManager : MonoBehaviour
         {
             DamageCrew();
         }
+        if(systems[SystemType.lights] <= 0 && powerOn)
+        {
+            PowerOff();
+        }
+        else if(systems[SystemType.lights] > 0 && !powerOn)
+        {
+            PowerOn();
+        }
 
         foreach(KeyValuePair<SystemType, float> system in systems)
         {
-            if(system.Value > 0.5f)
+            if(system.Value > 0.5f && powerOn)
             {
                 systemIcons[(int)system.Key].color = new Color32(255, 255, 255, 255);
             }
-            else if (system.Value <= 0.0f)
+            else if (system.Value <= 0.0f || !powerOn)
             {
                 systemIcons[(int)system.Key].color = new Color32(85, 85, 85, 255);
             }
@@ -68,24 +77,44 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void PowerOff()
+    {
+        powerOn = false;
+        mainLight.enabled = false;
+        playerLight.enabled = true;
+        vignette.enabled = true;
+        healthBars[0].color = new Color(0.25f, 0.25f, 0.25f);
+        healthBars[1].color = new Color(0.25f, 0.25f, 0.25f);
+    }
+
+    public void PowerOn()
+    {
+        powerOn = true;
+        mainLight.enabled = true;
+        playerLight.enabled = false;
+        vignette.enabled = false;
+        healthBars[0].color = Color.white;
+        healthBars[1].color = Color.white;
+    }
+
     public void DamageShip()
     {
-        Debug.Log("Taken damage!");
-
         if (systems[SystemType.shields] <= 0.0f)
         {
             shipHealth -= shipDamageRate;
             camera.ShakeCamera();
         }
 
-        healthBars[0].fillAmount = shipHealth / 100;
+        if(powerOn)
+            healthBars[0].fillAmount = shipHealth / 100;
     }
 
     void DamageCrew()
     {
         crewHealth -= crewDamageRate * Time.deltaTime;
 
-        healthBars[1].fillAmount = crewHealth / 100;
+        if (powerOn)
+            healthBars[1].fillAmount = crewHealth / 100;
     }
 
     void ThrustForward()

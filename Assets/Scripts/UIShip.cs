@@ -8,6 +8,8 @@ public class UIShip : MonoBehaviour
     public Image bar;
     public Image ship;
 
+    public GameManager gm;
+
     float progress = 0.0f;
 
 	// Use this for initialization
@@ -19,10 +21,12 @@ public class UIShip : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
+        progress = gm.currentDistance / 100;
+
+        bar.fillAmount = progress;
+
         float shipX = (Screen.width/20) + (Mathf.Clamp(Screen.width * progress, 0, Screen.width * 0.9f));
         ship.rectTransform.position = new Vector3(shipX, ship.rectTransform.position.y, ship.rectTransform.position.z);
-
-        progress += 0.01f * Time.deltaTime;
 
         progress = Mathf.Clamp(progress, 0, 1.0f);
 	}
