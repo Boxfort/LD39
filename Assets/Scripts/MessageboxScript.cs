@@ -13,7 +13,6 @@ public class MessageboxScript : MonoBehaviour
     public Text messageText;
     public Animator mboxAnim;
 
-    public ShipManager sm;
     bool oxygenTriggered = false, shieldTriggered = false, lightsTriggered = false;
 
     bool readingMessage = false;
@@ -23,38 +22,46 @@ public class MessageboxScript : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
-	}
-
-    void Update()
-    {
-        if(sm.systems[SystemType.shields] <= 0 && shieldTriggered == false)
-        {
-            addMessagesToQueue(new string[] {"The shields are down! We're gonna start taking damage from those bounty hunters. Get them back online!"});
-            shieldTriggered = true;
-        }
-        if (sm.systems[SystemType.oxygen] <= 0 && oxygenTriggered == false)
-        {
-            addMessagesToQueue(new string[] { "Life support systems are down, you're about to have a whole lot of trouble breathing." });
-            oxygenTriggered = true;
-        }
-        if (sm.systems[SystemType.lights] <= 0 && lightsTriggered == false)
-        {
-            addMessagesToQueue(new string[] { "Auxillary power is out, you're not going to be able to see the status of any of your systems, or five feet in front of you." });
-            lightsTriggered = true;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            addMessagesToQueue(new string[] {"Engineer! It looks like you're the only one who made it back to the ship.",
+        addMessagesToQueue(new string[] {"Engineer! It looks like you're the only one who made it back to the ship.",
                                         "You better get those batteries charged up and get the hell out of dodge before the bounty hunters show up.",
                                         "Pick up those batteries and put them into the charging stations beside you, then take them to the engine room and get this thing moving!",
                                         "Remember, you've gotta keep recharging the batteries when they run outa juice."
                                         });
-        }
+    }
 
+    void Update()
+    {
         if(messageQueue.Count > 0 && !readingMessage)
         {
             showMessages(messageQueue.Dequeue());
+        }
+    }
+
+    public void SystemAlert(SystemType type)
+    {
+        switch (type)
+        {
+            case SystemType.shields:
+                if(!shieldTriggered)
+                {
+                    addMessagesToQueue(new string[] { "The shields are down! We're gonna start taking damage from those bounty hunters. Get them back online!" });
+                    shieldTriggered = true;
+                }
+                break;
+            case SystemType.oxygen:
+                if(!oxygenTriggered)
+                {
+                    addMessagesToQueue(new string[] { "Auxillary power is out, you're not going to be able to see the status of any of your systems, or five feet in front of you." });
+                    lightsTriggered = true;
+                }
+                break;
+            case SystemType.lights:
+                if(!lightsTriggered)
+                {
+                    addMessagesToQueue(new string[] { "Auxillary power is out, you're not going to be able to see the status of any of your systems, or five feet in front of you." });
+                    lightsTriggered = true;
+                }
+                break;
         }
     }
 

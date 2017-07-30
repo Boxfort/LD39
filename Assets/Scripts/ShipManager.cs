@@ -16,9 +16,7 @@ public class ShipManager : MonoBehaviour
     float crewDamageRate = 2.0f;
     float shipDamageRate = 5.0f;
 
-    bool powerOn = true;
-
-    bool powerBeenOn = false;
+    public bool powerOn = true;
 
     public Image vignette;
     public Light mainLight;
@@ -31,6 +29,8 @@ public class ShipManager : MonoBehaviour
     public Image[] healthBars = new Image[2];
 
     public AudioSource[] sounds;
+
+    public MessageboxScript mbox;
 
     public Dictionary<SystemType, float> systems = new Dictionary<SystemType, float>()
     {
@@ -74,6 +74,7 @@ public class ShipManager : MonoBehaviour
             else if (system.Value <= 0.0f || !powerOn)
             {
                 systemIcons[(int)system.Key].color = new Color32(85, 85, 85, 255);
+                mbox.SystemAlert(system.Key);
             }
             else if (system.Value < 0.25f)
             {
@@ -95,8 +96,7 @@ public class ShipManager : MonoBehaviour
         healthBars[0].color = new Color(0.25f, 0.25f, 0.25f);
         healthBars[1].color = new Color(0.25f, 0.25f, 0.25f);
 
-        if(powerBeenOn)
-            sounds[0].Play();
+        sounds[0].Play();
     }
 
     public void PowerOn()
@@ -107,8 +107,6 @@ public class ShipManager : MonoBehaviour
         vignette.enabled = false;
         healthBars[0].color = Color.white;
         healthBars[1].color = Color.white;
-
-        powerBeenOn = true;
     }
 
     public void DamageShip()
@@ -122,8 +120,6 @@ public class ShipManager : MonoBehaviour
 
         if(powerOn)
             healthBars[0].fillAmount = shipHealth / 100;
-
-        
     }
 
     void DamageCrew()

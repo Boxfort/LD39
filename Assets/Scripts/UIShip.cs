@@ -21,6 +21,9 @@ public class UIShip : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
+        if (!sm.powerOn)
+            return; 
+
         progress = sm.currentDistance / 100;
 
         bar.fillAmount = progress;
