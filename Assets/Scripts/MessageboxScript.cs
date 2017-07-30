@@ -8,9 +8,12 @@ public class MessageboxScript : MonoBehaviour
     float messageDelay = 1.5f;
     float exitDelay = 3.0f;
     float letterDelay = 0.05f;
+    float nextDelay = 0.5f;
 
     public Text messageText;
     public Animator mboxAnim;
+
+    bool isOpen;
 
 	// Use this for initialization
 	void Start ()
@@ -22,30 +25,40 @@ public class MessageboxScript : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            showMessage("This is a test message, pretty snazzy huh? Your ship is exploding btw, bye.");
+            showMessages(new string[] {"Engineer! It looks like you're the only one who made it back to the ship.", "You better get those batteries charged up and get the hell out of dodge before the bounty hunters show up."});
         }
     }
 	
-    public void showMessage(string message)
+    public void showMessages(string[] messages)
     {
-        IEnumerator coroutine = messageRoutine(message);
+        IEnumerator coroutine = messageRoutine(messages, false);
         StartCoroutine(coroutine);
     }
 
-    IEnumerator messageRoutine(string message)
+    IEnumerator messageRoutine(string[] messages, bool close)
     {
-        Debug.Log("show the message FAM");
-        mboxAnim.SetTrigger("open");
+        if(!isOpen)
+            mboxAnim.SetTrigger("open");
         yield return new WaitForSeconds(messageDelay);
 
-        foreach (char letter in message.ToCharArray())
+
+        foreach(string message in messages)
         {
-            messageText.text += letter;
-            yield return new WaitForSeconds(letterDelay);
+            messageText.text = "";
+
+            foreach (char letter in message.ToCharArray())
+            {
+                messageText.text += letter;
+                yield return new WaitForSeconds(letterDelay);
+            }
+
+            yield return new WaitForSeconds(nextDelay);
         }
 
-        yield return new WaitForSeconds(exitDelay);
-        mboxAnim.SetTrigger("close");
+        if (close)
+        {
+            yield return new WaitForSeconds(exitDelay);
+            mboxAnim.SetTrigger("close");
+        }
     }
-
 }

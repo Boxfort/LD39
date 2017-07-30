@@ -7,15 +7,15 @@ public class PortScript : MonoBehaviour, IPort
     GameObject attachedBattery;
     BatteryScript batteryScript;
     public GameManager gameManager;
-
     public SystemType type;
-
     public float drainRate = 0.1f;
+
+    AudioSource[] sounds;
 
 	// Use this for initialization
 	void Start ()
     {
-		
+        sounds = GetComponents<AudioSource>();
 	}
 
     public void AttachBattery(GameObject battery)
@@ -26,6 +26,8 @@ public class PortScript : MonoBehaviour, IPort
         battery.transform.position = new Vector3(transform.position.x, transform.position.y, battery.transform.position.z);
         battery.transform.rotation = transform.rotation;
         battery.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+
+        sounds[0].Play();
     }
 
     public void DetachBattery()
@@ -33,10 +35,12 @@ public class PortScript : MonoBehaviour, IPort
         batteryScript = null;
         attachedBattery.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         attachedBattery = null;
+
+        sounds[0].Play();
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    // Update is called once per frame
+    void Update ()
     {
         if (batteryScript != null)
         {

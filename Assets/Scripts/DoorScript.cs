@@ -7,11 +7,15 @@ public class DoorScript : MonoBehaviour
     Animator am;
     BoxCollider2D collide;
 
+    AudioSource[] sounds;
+
 	// Use this for initialization
 	void Start ()
     {
         am = transform.parent.GetComponent<Animator>();
         collide = transform.parent.GetComponent<BoxCollider2D>();
+
+        sounds = transform.parent.GetComponents<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -26,6 +30,7 @@ public class DoorScript : MonoBehaviour
         {
             am.SetTrigger("open");
             collide.enabled = false;
+            sounds[0].Play();
         }
     }
 

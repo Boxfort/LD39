@@ -16,7 +16,8 @@ public class GameManager : MonoBehaviour
     float crewDamageRate = 2.0f;
     float shipDamageRate = 5.0f;
 
-    bool powerOn = false;
+    bool powerOn = true;
+    bool powerBeenOn = false;
 
     public Image vignette;
     public Light mainLight;
@@ -28,6 +29,8 @@ public class GameManager : MonoBehaviour
 
     public Image[] healthBars = new Image[2];
 
+    public AudioSource[] sounds;
+
     Dictionary<SystemType, float> systems = new Dictionary<SystemType, float>()
     {
         {SystemType.thrusters, 100.0f},
@@ -36,6 +39,11 @@ public class GameManager : MonoBehaviour
         {SystemType.lights, 100.0f}
     };
 	
+    void Start()
+    {
+        sounds = GetComponents<AudioSource>();
+    }
+
 	// Update is called once per frame
 	void Update ()
     {
@@ -85,6 +93,9 @@ public class GameManager : MonoBehaviour
         vignette.enabled = true;
         healthBars[0].color = new Color(0.25f, 0.25f, 0.25f);
         healthBars[1].color = new Color(0.25f, 0.25f, 0.25f);
+
+        if(powerBeenOn)
+            sounds[0].Play();
     }
 
     public void PowerOn()
@@ -95,6 +106,8 @@ public class GameManager : MonoBehaviour
         vignette.enabled = false;
         healthBars[0].color = Color.white;
         healthBars[1].color = Color.white;
+
+        powerBeenOn = true;
     }
 
     public void DamageShip()
@@ -103,10 +116,13 @@ public class GameManager : MonoBehaviour
         {
             shipHealth -= shipDamageRate;
             camera.ShakeCamera();
+            sounds[1].Play();
         }
 
         if(powerOn)
             healthBars[0].fillAmount = shipHealth / 100;
+
+        
     }
 
     void DamageCrew()

@@ -9,6 +9,9 @@ public class ChargerScript : MonoBehaviour, IPort
 
     float chargeRate = 0.2f;
 
+    AudioSource[] sounds;
+
+
     public void AttachBattery(GameObject battery)
     {
         attachedBattery = battery;
@@ -17,6 +20,8 @@ public class ChargerScript : MonoBehaviour, IPort
         battery.transform.position = new Vector3(transform.position.x, transform.position.y, battery.transform.position.z);
         battery.transform.rotation = transform.rotation;
         battery.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+
+        sounds[0].Play();
     }
 
     public void DetachBattery()
@@ -24,16 +29,18 @@ public class ChargerScript : MonoBehaviour, IPort
         batteryScript = null;
         attachedBattery.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         attachedBattery = null;
-    }
 
+        sounds[0].Play();
+    }
+    
     // Use this for initialization
     void Start ()
     {
-		
-	}
-	
-	// Update is called once per frame
-	void Update ()
+        sounds = GetComponents<AudioSource>();
+    }
+
+    // Update is called once per frame
+    void Update ()
     {
         if (batteryScript != null)
         {
