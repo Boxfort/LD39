@@ -70,6 +70,8 @@ public class GameManager : MonoBehaviour
 
     public void DamageShip()
     {
+        Debug.Log("Taken damage!");
+
         if (systems[SystemType.shields] <= 0.0f)
         {
             shipHealth -= shipDamageRate;
@@ -83,7 +85,7 @@ public class GameManager : MonoBehaviour
     {
         crewHealth -= crewDamageRate * Time.deltaTime;
 
-        healthBars[0].fillAmount = crewHealth / 100;
+        healthBars[1].fillAmount = crewHealth / 100;
     }
 
     void ThrustForward()

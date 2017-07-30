@@ -38,12 +38,14 @@ public class ChargerScript : MonoBehaviour, IPort
         if (batteryScript != null)
         {
             batteryScript.ChargeBattery(chargeRate);
+            attachedBattery.transform.position = new Vector3(transform.position.x, transform.position.y, attachedBattery.transform.position.z);
+            attachedBattery.transform.rotation = transform.rotation;
         }
     }
 
     void OnTriggerStay2D(Collider2D col)
     {
-        if (col.tag == "Battery" && col.GetComponent<BatteryScript>().canAttach)
+        if (col.tag == "Battery" && col.GetComponent<BatteryScript>().canAttach && attachedBattery == null)
         {
             AttachBattery(col.gameObject);
         }
