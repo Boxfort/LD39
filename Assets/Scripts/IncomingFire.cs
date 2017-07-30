@@ -15,6 +15,11 @@ public class IncomingFire : MonoBehaviour
         
     }
 
+    void Start()
+    {
+        Fire();
+    }
+
     void Fire()
     {
         float time = Random.Range(minTime, maxTime);
