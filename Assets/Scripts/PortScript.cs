@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class PortScript : MonoBehaviour, IPort
 {
-    GameObject attachedBattery;
-    BatteryScript batteryScript;
-    public GameManager gameManager;
+    public GameObject attachedBattery;
+    public BatteryScript batteryScript;
+    public ShipManager shipManager;
     public SystemType type;
     public float drainRate = 0.1f;
 
@@ -15,6 +15,10 @@ public class PortScript : MonoBehaviour, IPort
 	// Use this for initialization
 	void Start ()
     {
+        if (batteryScript != null)
+        {
+            batteryScript.port = this;
+        }
         sounds = GetComponents<AudioSource>();
 	}
 
@@ -51,11 +55,11 @@ public class PortScript : MonoBehaviour, IPort
 
         if (attachedBattery != null)
         {
-            gameManager.UpdateSystem(type, batteryScript.GetCharge());
+            shipManager.UpdateSystem(type, batteryScript.GetCharge());
         }
         else
         {
-            gameManager.UpdateSystem(type, 0.0f);
+            shipManager.UpdateSystem(type, 0.0f);
         }
 
 	}

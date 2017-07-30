@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour
+public class ShipManager : MonoBehaviour
 {
     float shipSpeed = 0.5f;
     float goalDistance = 100.0f;
@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     float shipDamageRate = 5.0f;
 
     bool powerOn = true;
+
     bool powerBeenOn = false;
 
     public Image vignette;
@@ -31,7 +32,7 @@ public class GameManager : MonoBehaviour
 
     public AudioSource[] sounds;
 
-    Dictionary<SystemType, float> systems = new Dictionary<SystemType, float>()
+    public Dictionary<SystemType, float> systems = new Dictionary<SystemType, float>()
     {
         {SystemType.thrusters, 100.0f},
         {SystemType.shields, 100.0f},

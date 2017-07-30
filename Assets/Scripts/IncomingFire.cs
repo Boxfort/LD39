@@ -7,13 +7,7 @@ public class IncomingFire : MonoBehaviour
     float minTime = 1.0f;
     float maxTime = 3.0f;
 
-    public GameManager gameManager;
-
-    // Use this for initialization
-    void Start()
-    {
-        Invoke("Fire", 1.0f);
-    }
+    public ShipManager gameManager;
 
     // Update is called once per frame
     void Update()

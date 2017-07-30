@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class BatteryScript : MonoBehaviour {
 
     public GameObject chargeBar;
-    float charge = 1.0f;
+    public float charge = 1.0f;
     public bool canAttach = true;
     public IPort port;
     Vector3 barOffest = new Vector3(0, -0.5f, -1.0f);

@@ -36,6 +36,10 @@ public class ChargerScript : MonoBehaviour, IPort
     // Use this for initialization
     void Start ()
     {
+        if(batteryScript != null)
+        {
+            batteryScript.port = this;
+        }
         sounds = GetComponents<AudioSource>();
     }
 

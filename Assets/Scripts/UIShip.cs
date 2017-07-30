@@ -8,7 +8,7 @@ public class UIShip : MonoBehaviour
     public Image bar;
     public Image ship;
 
-    public GameManager gm;
+    public ShipManager sm;
 
     float progress = 0.0f;
 
@@ -21,7 +21,7 @@ public class UIShip : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        progress = gm.currentDistance / 100;
+        progress = sm.currentDistance / 100;
 
         bar.fillAmount = progress;
 
