@@ -32,6 +32,7 @@ public class ShipManager : MonoBehaviour
 
     public CameraScript camera;
     public GameManager gm;
+    public PlayerScript player;
 
     public Image[] systemIcons = new Image[4];
     public Image[] healthBars = new Image[2];
@@ -159,6 +160,7 @@ public class ShipManager : MonoBehaviour
 
         if (crewHealth <= 0.0f && canLose)
         {
+            player.kill();
             gm.GameOverOxygen();
         }
 

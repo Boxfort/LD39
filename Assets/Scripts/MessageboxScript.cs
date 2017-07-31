@@ -29,7 +29,7 @@ public class MessageboxScript : MonoBehaviour
         addMessagesToQueue(new string[] {"Engineer! It looks like you're the only one who made it back to the ship.",
                                         "You better get those batteries charged up and get the hell out of dodge before the bounty hunters show up.",
                                         "Pick up those batteries and put them into the charging stations beside you, then take them to the engine room and get this thing moving!",
-                                        "Remember, you've gotta keep recharging the batteries when they run outa juice."
+                                        "Remember, you've gotta keep recharging the batteries when they run outta juice."
                                         });
     }
 

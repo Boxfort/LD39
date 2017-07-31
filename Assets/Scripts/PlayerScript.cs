@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
-    float moveSpeed = 1000.0f;
+    float moveSpeed = 6.75f;
     float sprintBonus = 1.5f;
     float activeSprintBonus = 1.0f;
 
     Rigidbody2D rb;
     PickupScript ps;
+
+    public Sprite deathSprite;
+
+    bool dead;
 
     public GameManager gm;
 
@@ -19,11 +23,17 @@ public class PlayerScript : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         ps = GetComponent<PickupScript>();
 	}
+
+    public void kill()
+    {
+        GetComponent<SpriteRenderer>().sprite = deathSprite;
+        dead = true;
+    }
 	
 	// Update is called once per frame
-	void Update ()
+	void FixedUpdate ()
     {
-        if (gm.paused)
+        if (gm.paused || dead)
             return;
 
         if(Input.GetKey(KeyCode.LeftShift) && ps.heldItem == null)
@@ -43,6 +53,6 @@ public class PlayerScript : MonoBehaviour
 
         //Move player
         Vector2 movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")) * activeSprintBonus;
-        rb.velocity = (movement * moveSpeed * Time.deltaTime);
+        transform.Translate(movement * moveSpeed * Time.deltaTime, Space.World);
 	}
 }

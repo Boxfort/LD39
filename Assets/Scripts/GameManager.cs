@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         sounds = GetComponents<AudioSource>();
+        Application.targetFrameRate = 60;
 	}
 	
     void Pause()
