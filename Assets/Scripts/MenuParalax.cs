@@ -21,9 +21,6 @@ public class MenuParalax : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        float middleX = Screen.width / 2;
-        float middleY = Screen.height / 2;
-
         Vector2 screenMiddle = new Vector2(Screen.width / 2, Screen.height / 2);
 
         Vector2 difference = (Vector2)Input.mousePosition - screenMiddle;

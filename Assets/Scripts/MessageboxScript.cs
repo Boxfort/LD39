@@ -13,6 +13,8 @@ public class MessageboxScript : MonoBehaviour
     public Text messageText;
     public Animator mboxAnim;
 
+    AudioSource[] sounds;
+
     bool oxygenTriggered = false, shieldTriggered = false, lightsTriggered = false;
 
     bool readingMessage = false;
@@ -22,6 +24,8 @@ public class MessageboxScript : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
+        sounds = GetComponents<AudioSource>();
+
         addMessagesToQueue(new string[] {"Engineer! It looks like you're the only one who made it back to the ship.",
                                         "You better get those batteries charged up and get the hell out of dodge before the bounty hunters show up.",
                                         "Pick up those batteries and put them into the charging stations beside you, then take them to the engine room and get this thing moving!",
@@ -82,6 +86,8 @@ public class MessageboxScript : MonoBehaviour
         mboxAnim.SetTrigger("open");
         yield return new WaitForSeconds(messageDelay);
 
+        int count = 1;
+
         foreach(string message in messages)
         {
             messageText.text = "";
@@ -89,7 +95,15 @@ public class MessageboxScript : MonoBehaviour
             foreach (char letter in message.ToCharArray())
             {
                 messageText.text += letter;
+
+                if(count % 3 == 0)
+                {
+                    int i = Random.Range(0, sounds.Length - 1);
+                    sounds[i].Play();
+                }
+
                 yield return new WaitForSeconds(letterDelay);
+                count++;
             }
 
             yield return new WaitForSeconds(nextDelay);

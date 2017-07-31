@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ShipManager : MonoBehaviour
 {
-    float shipSpeed = 0.5f;
+    float shipSpeed = 0.3f;
     float goalDistance = 100.0f;
 
     public float currentDistance = 0.0f;
@@ -18,6 +18,11 @@ public class ShipManager : MonoBehaviour
 
     public bool powerOn = true;
     public bool thrusterMessage = true;
+    public bool canLose = true;
+    public bool fiftyShip = true;
+    public bool critShip = true;
+    public bool fiftyOxygen = true;
+    public bool critOxygen = true;
 
     public Image vignette;
     public Light mainLight;
@@ -126,9 +131,20 @@ public class ShipManager : MonoBehaviour
         if(powerOn)
             healthBars[0].fillAmount = shipHealth / 100;
 
-        if(shipHealth <= 0.0f)
+        if(shipHealth <= 0.0f && canLose)
         {
             gm.GameOverShip();
+        }
+
+        if (shipHealth <= 50.0f && fiftyShip)
+        {
+            mbox.addMessagesToQueue(new string[] { "Hull integrity is at 50%!" });
+            fiftyShip = false;
+        }
+        if (shipHealth <= 25.0f && critShip)
+        {
+            mbox.addMessagesToQueue(new string[] { "THE SHIP IS GOING DOWN!" });
+            critShip = false;
         }
     }
 
@@ -139,9 +155,20 @@ public class ShipManager : MonoBehaviour
         if (powerOn)
             healthBars[1].fillAmount = crewHealth / 100;
 
-        if (crewHealth <= 0.0f)
+        if (crewHealth <= 0.0f && canLose)
         {
             gm.GameOverOxygen();
+        }
+
+        if(crewHealth <= 50.0f && fiftyOxygen)
+        {
+            mbox.addMessagesToQueue(new string[] { "You've lost half of your oxygen supply, be careful!"});
+            fiftyOxygen = false;
+        }
+        if(crewHealth <= 25.0f && critOxygen)
+        {
+            mbox.addMessagesToQueue(new string[] { "Oxygen supply is critical!" });
+            critOxygen = false;
         }
     }
 
@@ -161,6 +188,12 @@ public class ShipManager : MonoBehaviour
             }
 
             thrusterMessage = false;
+        }
+
+        if(currentDistance >= goalDistance)
+        {
+            canLose = false;
+            gm.WinGame();
         }
     }
 
