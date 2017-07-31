@@ -11,6 +11,8 @@ public class PlayerScript : MonoBehaviour
     Rigidbody2D rb;
     PickupScript ps;
 
+    public GameManager gm;
+
 	// Use this for initialization
 	void Start ()
     {
@@ -21,6 +23,9 @@ public class PlayerScript : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
+        if (gm.paused)
+            return;
+
         if(Input.GetKey(KeyCode.LeftShift) && ps.heldItem == null)
         {
             activeSprintBonus = sprintBonus;

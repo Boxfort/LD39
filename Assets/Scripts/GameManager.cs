@@ -7,16 +7,43 @@ public class GameManager : MonoBehaviour {
 
     public Canvas UI;
     AudioSource[] sounds;
-    MessageboxScript mbox;
+    public MessageboxScript mbox;
+
+    public GameObject pauseScreen;
+
+    public bool paused = false;
 
 	// Use this for initialization
 	void Start () {
         sounds = GetComponents<AudioSource>();
 	}
 	
+    void Pause()
+    {
+        paused = true;
+        sounds[0].Pause();
+        Time.timeScale = 0;
+        pauseScreen.SetActive(true);
+    }
+
+    void UnPause()
+    {
+        paused = false;
+        sounds[0].UnPause();
+        Time.timeScale = 1;
+        pauseScreen.SetActive(false);
+    }
+
 	// Update is called once per frame
-	void Update () {
-		
+	void Update ()
+    {
+		if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (!paused)
+                Pause();
+            else
+                UnPause();
+        }
 	}
 
     public void GameOverShip()
@@ -46,7 +73,7 @@ public class GameManager : MonoBehaviour {
 
     public void WinGame()
     {
-        
+        StartCoroutine(winner());
     }
 
     IEnumerator winner()

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ShipManager : MonoBehaviour
 {
-    float shipSpeed = 0.3f;
+    float shipSpeed = 0.3f; //0.3f
     float goalDistance = 100.0f;
 
     public float currentDistance = 0.0f;
@@ -13,7 +13,7 @@ public class ShipManager : MonoBehaviour
     float shipHealth = 100.0f;
     float crewHealth = 100.0f;
 
-    float crewDamageRate = 2.0f;
+    float crewDamageRate = 3.0f;
     float shipDamageRate = 5.0f;
 
     public bool powerOn = true;
@@ -199,7 +199,7 @@ public class ShipManager : MonoBehaviour
             thrusterFifty = false;
         }
 
-        if (currentDistance > 15.0f && thrusterFifteen)
+        if (currentDistance > 75.0f && thrusterFifteen)
         {
             mbox.addMessagesToQueue(new string[] { "You're in the home stretch, don't give up now!" });
             thrusterFifteen = false;

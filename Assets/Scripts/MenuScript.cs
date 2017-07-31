@@ -2,9 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuScript : MonoBehaviour
 {
+    bool clicked = false;
+
+    public GameObject[] toDisable;
+    public GameObject[] toEnable;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -17,6 +23,23 @@ public class MenuScript : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene("game", LoadSceneMode.Single);
+        if (!clicked)
+        {
+            foreach(GameObject i in toDisable)
+            {
+                i.SetActive(false);
+            }
+
+            foreach (GameObject i in toEnable)
+            {
+                i.SetActive(true);
+            }
+
+            clicked = true;
+        }
+        else
+        {
+            SceneManager.LoadScene("game", LoadSceneMode.Single);
+        }
     }
 }
