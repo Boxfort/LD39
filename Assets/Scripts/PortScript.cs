@@ -10,6 +10,8 @@ public class PortScript : MonoBehaviour, IPort
     public SystemType type;
     public float drainRate = 0.1f;
 
+    public bool isDraining = false;
+
     AudioSource[] sounds;
 
 	// Use this for initialization
@@ -48,7 +50,9 @@ public class PortScript : MonoBehaviour, IPort
     {
         if (batteryScript != null)
         {
-            batteryScript.DrainBattery(drainRate);
+            if(isDraining)
+                batteryScript.DrainBattery(drainRate);
+
             attachedBattery.transform.position = new Vector3(transform.position.x, transform.position.y, attachedBattery.transform.position.z);
             attachedBattery.transform.rotation = transform.rotation;
         }

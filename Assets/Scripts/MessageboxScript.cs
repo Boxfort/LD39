@@ -52,7 +52,7 @@ public class MessageboxScript : MonoBehaviour
                 if(!oxygenTriggered)
                 {
                     addMessagesToQueue(new string[] { "Auxillary power is out, you're not going to be able to see the status of any of your systems, or five feet in front of you." });
-                    lightsTriggered = true;
+                    oxygenTriggered = true;
                 }
                 break;
             case SystemType.lights:
@@ -96,6 +96,7 @@ public class MessageboxScript : MonoBehaviour
         }
 
         yield return new WaitForSeconds(exitDelay);
+        messageText.text = "";
         mboxAnim.SetTrigger("close");
         readingMessage = false;
     }

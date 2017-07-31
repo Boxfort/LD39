@@ -17,18 +17,19 @@ public class ShipManager : MonoBehaviour
     float shipDamageRate = 5.0f;
 
     public bool powerOn = true;
+    public bool thrusterMessage = true;
 
     public Image vignette;
     public Light mainLight;
     public Light playerLight;
 
     public CameraScript camera;
+    public GameManager gm;
 
     public Image[] systemIcons = new Image[4];
-
     public Image[] healthBars = new Image[2];
-
     public AudioSource[] sounds;
+    public PortScript[] ports;
 
     public MessageboxScript mbox;
 
@@ -65,16 +66,15 @@ public class ShipManager : MonoBehaviour
             PowerOn();
         }
 
-        foreach(KeyValuePair<SystemType, float> system in systems)
+        foreach (KeyValuePair<SystemType, float> system in systems)
         {
-            if(system.Value > 0.5f && powerOn)
+            if (system.Value > 0.5f && powerOn)
             {
                 systemIcons[(int)system.Key].color = new Color32(255, 255, 255, 255);
             }
             else if (system.Value <= 0.0f || !powerOn)
             {
                 systemIcons[(int)system.Key].color = new Color32(85, 85, 85, 255);
-                mbox.SystemAlert(system.Key);
             }
             else if (system.Value < 0.25f)
             {
@@ -83,6 +83,11 @@ public class ShipManager : MonoBehaviour
             else if (system.Value < 0.5f)
             {
                 systemIcons[(int)system.Key].color = new Color32(210, 187, 0, 255);
+            }
+
+            if (system.Value <= 0.0f)
+            {
+                mbox.SystemAlert(system.Key);
             }
         }
     }
@@ -120,6 +125,11 @@ public class ShipManager : MonoBehaviour
 
         if(powerOn)
             healthBars[0].fillAmount = shipHealth / 100;
+
+        if(shipHealth <= 0.0f)
+        {
+            gm.GameOverShip();
+        }
     }
 
     void DamageCrew()
@@ -128,11 +138,30 @@ public class ShipManager : MonoBehaviour
 
         if (powerOn)
             healthBars[1].fillAmount = crewHealth / 100;
+
+        if (crewHealth <= 0.0f)
+        {
+            gm.GameOverOxygen();
+        }
     }
 
     void ThrustForward()
     {
         currentDistance += shipSpeed * Time.deltaTime;
+
+        if(currentDistance > 0.0f && thrusterMessage)
+        {
+            mbox.addMessagesToQueue(new string[] { "Good, the thrusters are back online. You'll be home in no time.",
+                                                    "Now make sure you keep the batteries for the other three systems charged too.",
+                                                    "Good luck."
+                                                    });
+            foreach(PortScript port in ports)
+            {
+                port.isDraining = true;
+            }
+
+            thrusterMessage = false;
+        }
     }
 
     public void UpdateSystem(SystemType type, float value)
