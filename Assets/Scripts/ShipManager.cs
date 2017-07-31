@@ -23,6 +23,8 @@ public class ShipManager : MonoBehaviour
     public bool critShip = true;
     public bool fiftyOxygen = true;
     public bool critOxygen = true;
+    public bool thrusterFifty = true;
+    public bool thrusterFifteen = true;
 
     public Image vignette;
     public Light mainLight;
@@ -190,7 +192,20 @@ public class ShipManager : MonoBehaviour
             thrusterMessage = false;
         }
 
-        if(currentDistance >= goalDistance)
+
+        if (currentDistance > 50.0f && thrusterFifty)
+        {
+            mbox.addMessagesToQueue(new string[] { "You're halfway there, keep it up !"});
+            thrusterFifty = false;
+        }
+
+        if (currentDistance > 15.0f && thrusterFifteen)
+        {
+            mbox.addMessagesToQueue(new string[] { "You're in the home stretch, don't give up now!" });
+            thrusterFifteen = false;
+        }
+
+        if (currentDistance >= goalDistance)
         {
             canLose = false;
             gm.WinGame();
