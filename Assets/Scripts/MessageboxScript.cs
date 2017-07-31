@@ -55,7 +55,7 @@ public class MessageboxScript : MonoBehaviour
             case SystemType.oxygen:
                 if(!oxygenTriggered)
                 {
-                    addMessagesToQueue(new string[] { "Auxillary power is out, you're not going to be able to see the status of any of your systems, or five feet in front of you." });
+                    addMessagesToQueue(new string[] { "Life support systems are down, If you like being alive I'd get on that quickly." });
                     oxygenTriggered = true;
                 }
                 break;
