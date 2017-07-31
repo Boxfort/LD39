@@ -28,7 +28,7 @@ public class UIShip : MonoBehaviour
 
         bar.fillAmount = progress;
 
-        float shipX = (Screen.width/20) + (Mathf.Clamp(Screen.width * progress, 0, Screen.width * 0.9f));
+        float shipX = (Screen.width/20) + (Mathf.Clamp(Screen.width * progress * 0.9f, 0, Screen.width * 0.9f));
         ship.rectTransform.position = new Vector3(shipX, ship.rectTransform.position.y, ship.rectTransform.position.z);
 
         progress = Mathf.Clamp(progress, 0, 1.0f);

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PickupScript : MonoBehaviour {
 
-    float pickupDistance = 0.6f;
+    float pickupDistance = 1.0f;
 
     public GameObject heldItem;
 
@@ -25,7 +25,7 @@ public class PickupScript : MonoBehaviour {
         heldItem = item;
         heldItem.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
         heldItem.transform.SetParent(transform);
-        heldItem.transform.localPosition = (new Vector3(0, 1.0f, 0) * pickupDistance) - Vector3.forward;
+        heldItem.transform.localPosition = (new Vector3(0, 1.0f, 0) * 0.8f) - Vector3.forward;
         heldItem.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 90.0f));
     }
 

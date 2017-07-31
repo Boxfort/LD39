@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour {
 
     public Canvas UI;
     AudioSource[] sounds;
+    MessageboxScript mbox;
 
 	// Use this for initialization
 	void Start () {
@@ -45,6 +46,15 @@ public class GameManager : MonoBehaviour {
 
     public void WinGame()
     {
+        
+    }
+
+    IEnumerator winner()
+    {
+        mbox.addMessagesToQueue(new string[] { "The bounty hunters have bugged out, you made it! " });
+        yield return new WaitForSeconds(6.5f);
+        UI.enabled = false;
+        yield return new WaitForSeconds(2.0f);
         SceneManager.LoadScene("winner");
     }
 }
