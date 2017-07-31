@@ -53,7 +53,17 @@ public class PickupScript : MonoBehaviour {
         {
             if(heldItem != null)
             {
+                GameObject battery = heldItem;
                 dropItem();
+                RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position, pickupDistance);
+                foreach (RaycastHit2D hit in hits)
+                {
+                    if (hit.collider.tag == "Battery" && hit.collider.gameObject != battery)
+                    {
+                        pickupItem(hit.collider.gameObject);
+                        break;
+                    }
+                }
             }
             else
             {
